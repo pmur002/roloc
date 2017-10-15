@@ -1,0 +1,19 @@
+
+import("colorspace")
+importFrom("methods", "as")
+
+export("colourName",
+
+       "colourList",
+       "Rcolours",
+       "X11colours",
+       "SVGcolours",
+       "CSScolours",
+       "HTMLcolours",
+       "basicColours",
+
+       "euclideanDistance",
+       "euclideanLUV",
+       "euclideanRGB",
+
+       "colourPlot")
