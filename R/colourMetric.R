@@ -24,7 +24,19 @@ euclideanLUV <- function(colour, colourList, tolerance=Inf) {
     ## Calculate distances
     specCoords <- coords(specColour)
     listCoords <- coords(listColours)
-    apply(specCoords, 1, euclideanDistance, listCoords, tolerance)
+    ## This needs speeding up when number of colours is large
+    numCores <- detectCores()
+    numSpecs <- nrow(specCoords)
+    if (numSpecs > 100) {
+        unlist(mclapply(1:numSpecs,
+                        function(i) {
+                            euclideanDistance(specCoords[i,],
+                                              listCoords, tolerance)
+                        },
+                        mc.cores=numCores))
+    } else {
+        apply(specCoords, 1, euclideanDistance, listCoords, tolerance)
+    }
 }
 
 euclideanRGB <- function(colour, colourList, tolerance=Inf) {
@@ -32,6 +44,17 @@ euclideanRGB <- function(colour, colourList, tolerance=Inf) {
     ## Calculate distances
     specCoords <- coords(colour)
     listCoords <- coords(colourList)
-    apply(specCoords, 1, euclideanDistance, listCoords, tolerance)
+    ## This needs speeding up when number of colours is large
+    numCores <- detectCores()
+    if (numSpecs > 100) {
+        unlist(mclapply(1:numSpecs,
+                        function(i) {
+                            euclideanDistance(specCoords[i,],
+                                              listCoords, tolerance)
+                        },
+                        mc.cores=numCores))
+    } else {
+        apply(specCoords, 1, euclideanDistance, listCoords, tolerance)
+    }
 }
                          

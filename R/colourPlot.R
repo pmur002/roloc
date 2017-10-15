@@ -61,6 +61,6 @@ colourPlot <- function(colour,
         ggtitle(title) + xlab(xlab) + ylab(ylab) +
         theme(plot.title=element_text(face="bold")) +
         labs(caption=subtitle) +
-        geom_point(x=colX, y=colY) +
+        geom_point(aes(x=x, y=y), data=data.frame(x=colX, y=colY)) +
         geom_polygon(aes(x=V1, y=V2), data=region, col="black", fill=NA) 
 }

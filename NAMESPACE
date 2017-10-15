@@ -1,6 +1,7 @@
 
-import("colorspace")
 importFrom("methods", "as")
+importFrom("parallel", "mclapply", "detectCores")
+import("colorspace")
 
 export("colourName",
 

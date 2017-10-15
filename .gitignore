@@ -1,5 +1,6 @@
 # Emacs backup files
 *~
+.#*
 
 # History files
 .Rhistory
