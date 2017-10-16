@@ -105,3 +105,5 @@ colourPlot <- function(colour,
               newpage=newpage)
     }            
 }
+
+colorPlot <- colourPlot

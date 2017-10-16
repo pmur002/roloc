@@ -4,17 +4,25 @@ importFrom("parallel", "mclapply", "detectCores")
 import("colorspace")
 
 export("colourName",
+       "colorName",
 
        "colourList",
+       "colorList",
        "Rcolours",
        "X11colours",
        "SVGcolours",
        "CSScolours",
        "HTMLcolours",
        "basicColours",
+       "Rcolors",
+       "X11colors",
+       "SVGcolors",
+       "CSScolors",
+       "HTMLcolors",
 
        "euclideanDistance",
        "euclideanLUV",
        "euclideanRGB",
 
-       "colourPlot")
+       "colourPlot",
+       "colorPlot")

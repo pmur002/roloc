@@ -13,6 +13,8 @@ colourList <- function(names, colours) {
     cl
 }
 
+colorList <- colourList
+
 ## Predefined colourLists
 
 ## The list of colours that R knows about
@@ -22,6 +24,10 @@ Rcolours <- colourList(names=colours(),
 X11colours <- Rcolours
 SVGcolours <- Rcolours
 CSScolours <- Rcolours
+Rcolors <- Rcolours
+X11colors <- Rcolours
+SVGcolors <- Rcolours
+CSScolors <- Rcolours
 
 ## A small standard set for the Web ("HTML colours")
 HTMLcolours <- colourList(names=c("black",
@@ -56,6 +62,8 @@ HTMLcolours <- colourList(names=c("black",
                                              c(0, 0, 255),
                                              c(0, 128, 128),
                                              c(0, 255, 255))/255))
+
+HTMLcolors <- HTMLcolours
 
 ## Hues based on 1908 colour wheel
 ## https://en.wikipedia.org/wiki/Color_wheel#/media/File:RGV_color_wheel_1908.png
