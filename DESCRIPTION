@@ -8,4 +8,4 @@ Maintainer: Paul Murrell <paul@stat.auckland.ac.nz>
 Description: More about what it does (maybe more than one line)
 License: GPL2, GPL3
 Imports: methods, parallel, colorspace
-Suggests: ggplot2, testthat
+Suggests: grid, ggplot2, testthat

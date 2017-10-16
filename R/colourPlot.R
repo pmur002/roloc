@@ -1,7 +1,7 @@
 
 ## Functions to visualise colour names
 
-colourRegion <- function(names, colourName) {
+colourRegion <- function(colourName, names) {
     indices <- arrayInd(which(names == colourName), c(256, 256))
     corners <- rbind(cbind((indices[,1] - 1.5)/255, (indices[,2] - 1.5)/255),
                      cbind((indices[,1] - 1.5)/255, (indices[,2])/255),
@@ -11,21 +11,41 @@ colourRegion <- function(names, colourName) {
     as.data.frame(corners[boundary, ])
 }
 
+colPlot <- function(colour, colourList, colourMetric,
+                    x, y, z, colX, colY, xlab, ylab, subtitle) {
+    require(ggplot2)
+    colName <- colourName(colour, colourList, colourMetric)
+    title <- paste0('Colour = "', paste(colour, collapse='", "'),
+                    '"\nName = "', paste(colName, collapse='", "'), '"')
+    RGB <- expand.grid(x, y, z)
+    cols <- rgb(RGB)
+    names <- colourName(cols, colourList, colourMetric)
+    regions <- lapply(colName, colourRegion, names)
+    regionDF <- cbind(do.call(rbind, regions),
+                      group=rep(1:length(regions), sapply(regions, nrow)))
+    ggplot(as.data.frame(RGB)) +
+        geom_tile(aes(Var1, Var2), fill=cols) +
+        scale_x_continuous(expand=c(0, 0)) +
+        scale_y_continuous(expand=c(0, 0)) +
+        ggtitle(title) + xlab(xlab) + ylab(ylab) +
+        theme(plot.title=element_text(face="bold")) +
+        labs(caption=subtitle) +
+        geom_point(aes(x=x, y=y), data=data.frame(x=colX, y=colY), pch=1) +
+        geom_polygon(aes(x=V1, y=V2, group=group), data=regionDF,
+                     col="black", fill=NA) 
+}
+
 colourPlot <- function(colour,
                        colourList=Rcolours,
                        colourMetric=euclideanLUV,
-                       plane="RG") {
-    if (length(colour) > 1) 
-        stop("Only a single colour specification is supported (for now)")
-    require(ggplot2)
+                       plane="RG",
+                       newpage=TRUE) {
     if (is.numeric(colour)) {
         colour <- col2char(colour)
     }
-    colName <- colourName(colour, colourList, colourMetric)
     colRGB <- coords(hex2RGB(col2hex(colour)))
     x <- 0:255/255
     y <- 0:255/255
-    title <- paste0('Colour = "', colour, '"\nName = "', colName, '"')
     if (plane == "RG") {
         colX <- colRGB[,1]
         colY <- colRGB[,2]
@@ -50,17 +70,38 @@ colourPlot <- function(colour,
     } else {
         stop("Invalid 'plane' argument")
     }
-    RGB <- expand.grid(x, y, z)
-    cols <- rgb(RGB)
-    names <- colourName(cols, colourList, colourMetric)
-    region <- colourRegion(colName, names)
-    ggplot(as.data.frame(RGB)) +
-        geom_tile(aes(Var1, Var2), fill=cols) +
-        scale_x_continuous(expand=c(0, 0)) +
-        scale_y_continuous(expand=c(0, 0)) +
-        ggtitle(title) + xlab(xlab) + ylab(ylab) +
-        theme(plot.title=element_text(face="bold")) +
-        labs(caption=subtitle) +
-        geom_point(aes(x=x, y=y), data=data.frame(x=colX, y=colY)) +
-        geom_polygon(aes(x=V1, y=V2), data=region, col="black", fill=NA) 
+    nz <- length(z)
+    if (nz > 1) {
+        require(grid)
+        dim <- n2mfrow(nz)
+        ## Swap dimensions so have preference for fewer rows 
+        layout <- grid.layout(nrow=dim[2], ncol=dim[1])
+        if (newpage) {
+            grid.newpage()
+        }
+        pushViewport(viewport(layout=layout, name="roloc-layout"))
+        for (i in 1:dim[2]) {
+            for (j in 1:dim[1]) {
+                index <- (i - 1)*dim[1] + j
+                colIndex <- switch(plane,
+                                   RG=which(colRGB[,3] == z[index]),
+                                   GB=which(colRGB[,1] == z[index]),
+                                   RB=which(colRGB[,2] == z[index]))
+                if (index <= nz) {
+                    pushViewport(viewport(layout.pos.col=j, layout.pos.row=i))
+                    print(colPlot(colour[colIndex], colourList, colourMetric,
+                                  x, y, z[index],
+                                  colX[colIndex], colY[colIndex],
+                                  xlab, ylab, subtitle[index]),
+                          newpage=FALSE)
+                    upViewport()
+                }
+            }
+            upViewport()
+        }
+    } else {
+        print(colPlot(colour, colourList, colourMetric, x, y, z,
+                      colX, colY, xlab, ylab, subtitle),
+              newpage=newpage)
+    }            
 }

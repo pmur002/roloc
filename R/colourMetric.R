@@ -46,6 +46,7 @@ euclideanRGB <- function(colour, colourList, tolerance=Inf) {
     listCoords <- coords(colourList)
     ## This needs speeding up when number of colours is large
     numCores <- detectCores()
+    numSpecs <- nrow(specCoords)
     if (numSpecs > 100) {
         unlist(mclapply(1:numSpecs,
                         function(i) {
