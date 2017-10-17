@@ -81,3 +81,5 @@ colourNames <- gsub(" +", " ",
 colours <- apply(expand.grid(chromaNum, luminanceNum, hueNum), 1, 
                              function(x) hcl(x[3], x[1], x[2]))
 basicColours <- colourList(colourNames, hex2RGB(colours))
+
+basicHues <- colourList(hue, hex2RGB(hcl(hueNum, 40, 50)))

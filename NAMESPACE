@@ -14,6 +14,8 @@ export("colourName",
        "CSScolours",
        "HTMLcolours",
        "basicColours",
+       "basicHues",
+       # Aliases
        "Rcolors",
        "X11colors",
        "SVGcolors",
@@ -24,5 +26,7 @@ export("colourName",
        "euclideanLUV",
        "euclideanRGB",
 
+       "colourScale",
+       
        "colourPlot",
        "colorPlot")

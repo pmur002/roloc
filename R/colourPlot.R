@@ -97,8 +97,8 @@ colourPlot <- function(colour,
                     upViewport()
                 }
             }
-            upViewport()
         }
+        upViewport()
     } else {
         print(colPlot(colour, colourList, colourMetric, x, y, z,
                       colX, colY, xlab, ylab, subtitle),
