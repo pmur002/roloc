@@ -69,7 +69,12 @@ HTMLcolors <- HTMLcolours
 NBS <- read.table(system.file("Dictionaries", "NBS-ISCC-rgb.txt",
                               package="roloc"),
                   comment.char="!")
-NBScolours <- colourList(NBS$V4, sRGB(as.matrix(NBS[1:3])/255))
+## Separate out components of colour names
+## (so screen readers will have an easier time)
+NBSnames <-
+    gsub("(very|pale|ish|brilliant|strong|vivid|deep|moderate|light|dark)",
+         "\\1 ", NBS$V4)
+NBScolours <- colourList(NBSnames, sRGB(as.matrix(NBS[1:3])/255))
 NBScolors <- NBScolours
 
 ## Resene Colour Dictionary
