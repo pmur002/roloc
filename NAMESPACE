@@ -13,6 +13,8 @@ export("colourName",
        "SVGcolours",
        "CSScolours",
        "HTMLcolours",
+       "NBScolours",
+       "ReseneColours",
        "basicColours",
        "basicHues",
        # Aliases
@@ -21,12 +23,12 @@ export("colourName",
        "SVGcolors",
        "CSScolors",
        "HTMLcolors",
+       "NBScolors",
+       "ReseneColours",
 
        "euclideanDistance",
        "euclideanLUV",
        "euclideanRGB",
 
-       "colourScale",
-       
        "colourPlot",
        "colorPlot")

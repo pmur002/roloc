@@ -65,6 +65,20 @@ HTMLcolours <- colourList(names=c("black",
 
 HTMLcolors <- HTMLcolours
 
+## NBS-ISCC Colour Dictionary
+NBS <- read.table(system.file("Dictionaries", "NBS-ISCC-rgb.txt",
+                              package="roloc"),
+                  comment.char="!")
+NBScolours <- colourList(NBS$V4, sRGB(as.matrix(NBS[1:3])/255))
+NBScolors <- NBScolours
+
+## Resene Colour Dictionary
+Resene <- read.table(system.file("Dictionaries", "Resene-2010-rgb.txt",
+                                 package="roloc"),
+                     comment.char="!")
+ReseneColours <- colourList(Resene$V4, sRGB(as.matrix(Resene[1:3])/255))
+ReseneColors <- ReseneColours
+    
 ## Hues based on 1908 colour wheel
 ## https://en.wikipedia.org/wiki/Color_wheel#/media/File:RGV_color_wheel_1908.png
 ## https://en.wikipedia.org/wiki/Color_wheel
