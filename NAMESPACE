@@ -16,7 +16,6 @@ export("colourName",
        "NBScolours",
        "ReseneColours",
        "basicColours",
-       "basicHues",
        # Aliases
        "Rcolors",
        "X11colors",

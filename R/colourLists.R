@@ -93,8 +93,11 @@ hue <- c("red", "yellow", "green", "cyan", "blue", "magenta")
 luminanceNum <- c(90, 70, 50, 30, 10)
 chromaNum <- c(90, 70, 50, 30, 10)
 hueNum <- seq(0, 300, 60)
-grey <- c("white", paste("gray", seq(90, 10, 10)), "black")
-greyNum <- seq(100, 0, 10)
+grey <- c("white",
+          paste(c("very light", "light", "medium", "dark", "very dark"),
+                "grey"),
+          "black")
+greyNum <- c(100, seq(90, 10, -20), 0)
 colourNames <- c(gsub(" +", " ", 
                       gsub("^ +| +$", "",
                            apply(expand.grid(chroma, luminance, hue), 1, 
@@ -102,6 +105,6 @@ colourNames <- c(gsub(" +", " ",
                  grey)
 colours <- c(apply(expand.grid(chromaNum, luminanceNum, hueNum), 1, 
                                function(x) hcl(x[3], x[1], x[2])),
-             greyNum)
+             hcl(0, 0, greyNum))
 basicColours <- colourList(colourNames, hex2RGB(colours))
 
