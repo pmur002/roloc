@@ -72,7 +72,7 @@ NBS <- read.table(system.file("Dictionaries", "NBS-ISCC-rgb.txt",
 ## Separate out components of colour names
 ## (so screen readers will have an easier time)
 NBSnames <-
-    gsub("(very|pale|ish|brilliant|strong|vivid|deep|moderate|light|dark)",
+    gsub("(very|pale|ish|brilliant|strong|vivid|deep|moderate|light|dark|medium)",
          "\\1 ", NBS$V4)
 NBScolours <- colourList(NBSnames, sRGB(as.matrix(NBS[1:3])/255))
 NBScolors <- NBScolours
@@ -87,18 +87,21 @@ ReseneColors <- ReseneColours
 ## Hues based on 1908 colour wheel
 ## https://en.wikipedia.org/wiki/Color_wheel#/media/File:RGV_color_wheel_1908.png
 ## https://en.wikipedia.org/wiki/Color_wheel
-luminance <- c("light", "", "dark")
-chroma <- c("bright", "", "dull")
+luminance <- c("very light", "light", "", "dark", "very dark")
+chroma <- c("bright", "vivid", "", "dull", "grey")
 hue <- c("red", "yellow", "green", "cyan", "blue", "magenta")
-luminanceNum <- c(80, 50, 20)
-chromaNum <- c(80, 50, 20)
+luminanceNum <- c(90, 70, 50, 30, 10)
+chromaNum <- c(90, 70, 50, 30, 10)
 hueNum <- seq(0, 300, 60)
-colourNames <- gsub(" +", " ", 
-                    gsub("^ +| +$", "",
-                         apply(expand.grid(chroma, luminance, hue), 1, 
-                               paste, collapse=" ")))
-colours <- apply(expand.grid(chromaNum, luminanceNum, hueNum), 1, 
-                             function(x) hcl(x[3], x[1], x[2]))
+grey <- c("white", paste("gray", seq(90, 10, 10)), "black")
+greyNum <- seq(100, 0, 10)
+colourNames <- c(gsub(" +", " ", 
+                      gsub("^ +| +$", "",
+                           apply(expand.grid(chroma, luminance, hue), 1, 
+                                 paste, collapse=" "))),
+                 grey)
+colours <- c(apply(expand.grid(chromaNum, luminanceNum, hueNum), 1, 
+                               function(x) hcl(x[3], x[1], x[2])),
+             greyNum)
 basicColours <- colourList(colourNames, hex2RGB(colours))
 
-basicHues <- colourList(hue, hex2RGB(hcl(hueNum, 40, 50)))
