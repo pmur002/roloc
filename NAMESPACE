@@ -23,7 +23,7 @@ export("colourName",
        "CSScolors",
        "HTMLcolors",
        "NBScolors",
-       "ReseneColours",
+       "ReseneColors",
 
        "euclideanDistance",
        "euclideanLUV",
