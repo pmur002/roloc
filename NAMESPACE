@@ -30,4 +30,7 @@ export("colourName",
        "euclideanRGB",
 
        "colourPlot",
-       "colorPlot")
+       "colourSwatch",
+       ## Aliases
+       "colorPlot",
+       "colorSwatch")

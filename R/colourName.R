@@ -29,8 +29,8 @@ col2hex <- function(charspec) {
 
 ## 'colourspace' must be one that the 'colorspace' package knows about
 colourName <- function(colour,
-                       colourList=Rcolours,
-                       colourMetric=euclideanLUV,
+                       colourList=getOption("roloc.colourList"),
+                       colourMetric=getOption("roloc.colourMetric"),
                        ...) {
     if (!inherits(colourList, "colourList"))
         stop("Invalid colourList")

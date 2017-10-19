@@ -36,8 +36,8 @@ colPlot <- function(colour, colourList, colourMetric,
 }
 
 colourPlot <- function(colour,
-                       colourList=Rcolours,
-                       colourMetric=euclideanLUV,
+                       colourList=getOption("roloc.colourList"),
+                       colourMetric=getOption("roloc.colourMetric"),
                        plane="RG",
                        newpage=TRUE) {
     if (is.numeric(colour)) {
@@ -107,3 +107,29 @@ colourPlot <- function(colour,
 }
 
 colorPlot <- colourPlot
+
+colourSwatch <- function(colours,
+                         colourList=getOption("roloc.colourList"),
+                         colourMetric=getOption("roloc.colourMetric"),
+                         newpage=TRUE) {
+    require(grid)
+    if (newpage) {
+        grid.newpage()
+    }
+    layout <- grid.layout(nrow=length(colours), ncol=3,
+                          heights=unit(1, "line"), 
+                          widths=unit(rep(1, 3), c("null", "cm", "null")))
+    pushViewport(viewport(layout=layout))
+    names <- colourName(colours, colourList, colourMetric)
+    for (i in seq_along(colours)) {
+        pushViewport(viewport(layout.pos.row=i, layout.pos.col=2))
+        grid.rect(width=.8, height=1, gp=gpar(col=NA, fill=colours[i]))
+        grid.text(colours[i], x=0, just="right", 
+                  gp=gpar(fontfamily="mono"))
+        grid.text(names[i], x=1, just="left")
+        popViewport()
+    }
+    popViewport()
+}
+
+colorSwatch <- colourSwatch
