@@ -92,7 +92,7 @@ ReseneColors <- ReseneColours
 ## https://en.wikipedia.org/wiki/Color_wheel#/media/File:RGV_color_wheel_1908.png
 ## https://en.wikipedia.org/wiki/Color_wheel
 luminance <- c("very light", "light", "", "dark", "very dark")
-chroma <- c("bright", "vivid", "", "dull", "grey")
+chroma <- c("bright", "vivid", "", "dull", "greyish")
 hue <- c("red", "yellow", "green", "cyan", "blue", "magenta")
 luminanceNum <- c(90, 70, 50, 30, 10)
 chromaNum <- c(90, 70, 50, 30, 10)
