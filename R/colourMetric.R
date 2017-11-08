@@ -28,14 +28,14 @@ euclideanLUV <- function(colour, colourList, tolerance=Inf) {
     numCores <- detectCores()
     numSpecs <- nrow(specCoords)
     if (numSpecs > 100) {
-        unlist(mclapply(1:numSpecs,
-                        function(i) {
-                            euclideanDistance(specCoords[i,],
-                                              listCoords, tolerance)
-                        },
-                        mc.cores=numCores))
+        mclapply(1:numSpecs,
+                 function(i) {
+                     euclideanDistance(specCoords[i,],
+                                       listCoords, tolerance)
+                 },
+                 mc.cores=numCores)
     } else {
-        apply(specCoords, 1, euclideanDistance, listCoords, tolerance)
+        as.list(apply(specCoords, 1, euclideanDistance, listCoords, tolerance))
     }
 }
 
@@ -48,14 +48,14 @@ euclideanRGB <- function(colour, colourList, tolerance=Inf) {
     numCores <- detectCores()
     numSpecs <- nrow(specCoords)
     if (numSpecs > 100) {
-        unlist(mclapply(1:numSpecs,
-                        function(i) {
-                            euclideanDistance(specCoords[i,],
-                                              listCoords, tolerance)
-                        },
-                        mc.cores=numCores))
+        mclapply(1:numSpecs,
+                 function(i) {
+                     euclideanDistance(specCoords[i,],
+                                       listCoords, tolerance)
+                 },
+                 mc.cores=numCores)
     } else {
-        apply(specCoords, 1, euclideanDistance, listCoords, tolerance)
+        as.list(apply(specCoords, 1, euclideanDistance, listCoords, tolerance))
     }
 }
                          

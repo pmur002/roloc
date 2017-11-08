@@ -5,6 +5,8 @@ import("colorspace")
 
 export("colourName",
        "colorName",
+       "colourNames",
+       "colorNames",
 
        "colourList",
        "colorList",

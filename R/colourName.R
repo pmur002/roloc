@@ -27,11 +27,10 @@ col2hex <- function(charspec) {
     charspec
 }
 
-## 'colourspace' must be one that the 'colorspace' package knows about
-colourName <- function(colour,
-                       colourList=getOption("roloc.colourList"),
-                       colourMetric=getOption("roloc.colourMetric"),
-                       ...) {
+colourNames <- function(colour,
+                        colourList=getOption("roloc.colourList"),
+                        colourMetric=getOption("roloc.colourMetric"),
+                        ...) {
     if (!inherits(colourList, "colourList"))
         stop("Invalid colourList")
     ## Convert to character
@@ -46,14 +45,26 @@ colourName <- function(colour,
         ## Otherwise, convert "#RRGGBB[AA]" specification to name
         colourRGB <- hex2RGB(col2hex(colourSpec))
         colourIndex <- colourMetric(colourRGB, colourList$colours, ...)
-        missing <- is.na(colourIndex)
-        unknown <- !missing & colourIndex < 1
+        missing <- sapply(colourIndex, is.na)
+        unknown <- !missing & sapply(colourIndex,
+                                     function(x) { length(x) == 1 && x < 1 })
         colour[!alreadyName & missing] <- NA
         colour[!alreadyName & unknown] <- "unknown"
-        colour[!alreadyName & !(missing | unknown)] <-
-            colourList$names[colourIndex[!(missing | unknown)]]
+        colours <- as.list(colour)
+        colours[!alreadyName & !(missing | unknown)] <-
+            lapply(colourIndex[!(missing | unknown)],
+                   function(i) { colourList$names[i] })
+    } else {
+        colours <- as.list(colour)
     }
-    colour
+    colours
+}
+
+colorNames <- colourNames
+
+colourName <- function(...) {
+    nameList <- colourNames(...)
+    sapply(nameList, "[[", 1)
 }
 
 colorName <- colourName
