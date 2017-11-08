@@ -15,7 +15,7 @@ NBScolours
 \source{
   http://people.csail.mit.edu/jaffer/Color/NBS-ISCC-rgb.txt
 }
-\warning{
+\section{Warning}{
   Some of the sRGB centroids are approximations because some ISCC-NBS
   colours cannot be represented within the sRGB gamut.
   This means that some ISCC-NBS colour names will not \dQuote{round
