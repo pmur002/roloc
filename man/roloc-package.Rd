@@ -13,8 +13,9 @@
 The DESCRIPTION file:
 \packageDESCRIPTION{roloc}
 \packageIndices{roloc}
-~~ An overview of how to use the package, including the most important ~~
-~~ functions ~~
+
+The main function in this package is \code{colourName()}, which takes
+one or more colour specifications and returns a matching colour name.
 }
 \author{
 \packageAuthor{roloc}
@@ -27,8 +28,7 @@ Maintainer: \packageMaintainer{roloc}
 \keyword{ package }
 \seealso{
 ~~ Optional links to other man pages, e.g. ~~
-~~ \code{\link[<pkg>:<pkg>-package]{<pkg>}} ~~
 }
 \examples{
-~~ simple examples of the most important functions ~~
+colourName("#FF0000")
 }

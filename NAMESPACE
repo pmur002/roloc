@@ -1,5 +1,6 @@
 
-importFrom("methods", "as")
+importFrom("grDevices", "col2rgb", "palette", "rgb", "chull", "n2mfrow")
+importFrom("methods", "as", "is")
 importFrom("parallel", "mclapply", "detectCores")
 import("colorspace")
 
@@ -17,7 +18,6 @@ export("colourName",
        "HTMLcolours",
        "NBScolours",
        "ReseneColours",
-       "basicColours",
        # Aliases
        "Rcolors",
        "X11colors",
@@ -29,10 +29,11 @@ export("colourName",
 
        "euclideanDistance",
        "euclideanLUV",
-       "euclideanRGB",
+       "euclideanRGB"
 
-       "colourPlot",
-       "colourSwatch",
+       ## "colourPlot",
+       ## "colourSwatch",
        ## Aliases
-       "colorPlot",
-       "colorSwatch")
+       ## "colorPlot",
+       ## "colorSwatch"
+       )

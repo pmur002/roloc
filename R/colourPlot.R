@@ -13,7 +13,6 @@ colourRegion <- function(colourName, names) {
 
 colPlot <- function(colour, colourList, colourMetric,
                     x, y, z, colX, colY, xlab, ylab, subtitle) {
-    require(ggplot2)
     colName <- colourName(colour, colourList, colourMetric)
     title <- paste0('Colour = "', paste(colour, collapse='", "'),
                     '"\nName = "', paste(colName, collapse='", "'), '"')
@@ -23,16 +22,17 @@ colPlot <- function(colour, colourList, colourMetric,
     regions <- lapply(colName, colourRegion, names)
     regionDF <- cbind(do.call(rbind, regions),
                       group=rep(1:length(regions), sapply(regions, nrow)))
-    ggplot(as.data.frame(RGB)) +
-        geom_tile(aes(Var1, Var2), fill=cols) +
-        scale_x_continuous(expand=c(0, 0)) +
-        scale_y_continuous(expand=c(0, 0)) +
-        ggtitle(title) + xlab(xlab) + ylab(ylab) +
-        theme(plot.title=element_text(face="bold")) +
-        labs(caption=subtitle) +
-        geom_point(aes(x=x, y=y), data=data.frame(x=colX, y=colY), pch=1) +
-        geom_polygon(aes(x=V1, y=V2, group=group), data=regionDF,
-                     col="black", fill=NA) 
+    ggplot2::ggplot(as.data.frame(RGB)) +
+        ggplot2::geom_tile(ggplot2::aes(Var1, Var2), fill=cols) +
+        ggplot2::scale_x_continuous(expand=c(0, 0)) +
+        ggplot2::scale_y_continuous(expand=c(0, 0)) +
+        ggplot2::ggtitle(title) + xlab(xlab) + ylab(ylab) +
+        ggplot2::theme(plot.title=ggplot2::element_text(face="bold")) +
+        ggplot2::labs(caption=subtitle) +
+        ggplot2::geom_point(ggplot2::aes(x=x, y=y),
+                            data=data.frame(x=colX, y=colY), pch=1) +
+        ggplot2::geom_polygon(ggplot2::aes(x=V1, y=V2, group=group),
+                              data=regionDF, col="black", fill=NA) 
 }
 
 colourPlot <- function(colour,
@@ -72,14 +72,13 @@ colourPlot <- function(colour,
     }
     nz <- length(z)
     if (nz > 1) {
-        require(grid)
         dim <- n2mfrow(nz)
         ## Swap dimensions so have preference for fewer rows 
-        layout <- grid.layout(nrow=dim[2], ncol=dim[1])
+        layout <- grid::grid.layout(nrow=dim[2], ncol=dim[1])
         if (newpage) {
-            grid.newpage()
+            grid::grid.newpage()
         }
-        pushViewport(viewport(layout=layout, name="roloc-layout"))
+        grid::pushViewport(grid::viewport(layout=layout, name="roloc-layout"))
         for (i in 1:dim[2]) {
             for (j in 1:dim[1]) {
                 index <- (i - 1)*dim[1] + j
@@ -88,17 +87,18 @@ colourPlot <- function(colour,
                                    GB=which(colRGB[,1] == z[index]),
                                    RB=which(colRGB[,2] == z[index]))
                 if (index <= nz) {
-                    pushViewport(viewport(layout.pos.col=j, layout.pos.row=i))
+                    grid::pushViewport(grid::viewport(layout.pos.col=j,
+                                                      layout.pos.row=i))
                     print(colPlot(colour[colIndex], colourList, colourMetric,
                                   x, y, z[index],
                                   colX[colIndex], colY[colIndex],
                                   xlab, ylab, subtitle[index]),
                           newpage=FALSE)
-                    upViewport()
+                    grid::upViewport()
                 }
             }
         }
-        upViewport()
+        grid::upViewport()
     } else {
         print(colPlot(colour, colourList, colourMetric, x, y, z,
                       colX, colY, xlab, ylab, subtitle),
@@ -112,24 +112,25 @@ colourSwatch <- function(colours,
                          colourList=getOption("roloc.colourList"),
                          colourMetric=getOption("roloc.colourMetric"),
                          newpage=TRUE) {
-    require(grid)
     if (newpage) {
-        grid.newpage()
+        grid::grid.newpage()
     }
-    layout <- grid.layout(nrow=length(colours), ncol=3,
-                          heights=unit(1, "line"), 
-                          widths=unit(rep(1, 3), c("null", "cm", "null")))
-    pushViewport(viewport(layout=layout))
+    layout <- grid::grid.layout(nrow=length(colours), ncol=3,
+                                heights=grid::unit(1, "line"), 
+                                widths=grid::unit(rep(1, 3),
+                                                  c("null", "cm", "null")))
+    grid::pushViewport(grid::viewport(layout=layout))
     names <- colourName(colours, colourList, colourMetric)
     for (i in seq_along(colours)) {
-        pushViewport(viewport(layout.pos.row=i, layout.pos.col=2))
-        grid.rect(width=.8, height=1, gp=gpar(col=NA, fill=colours[i]))
-        grid.text(colours[i], x=0, just="right", 
-                  gp=gpar(fontfamily="mono"))
-        grid.text(names[i], x=1, just="left")
-        popViewport()
+        grid::pushViewport(grid::viewport(layout.pos.row=i, layout.pos.col=2))
+        grid::grid.rect(width=.8, height=1,
+                        gp=grid::gpar(col=NA, fill=colours[i]))
+        grid::grid.text(colours[i], x=0, just="right", 
+                        gp=grid::gpar(fontfamily="mono"))
+        grid::grid.text(names[i], x=1, just="left")
+        grid::popViewport()
     }
-    popViewport()
+    grid::popViewport()
 }
 
 colorSwatch <- colourSwatch

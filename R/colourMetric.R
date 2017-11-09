@@ -1,5 +1,5 @@
 
-euclideanDistance <- function(spec, list, tol) {
+euclideanDistance <- function(spec, list, tolerance) {
     if (any(!is.finite(spec))) {
         NA
     } else {
@@ -7,7 +7,7 @@ euclideanDistance <- function(spec, list, tol) {
                           (spec[2] - list[,2])^2 +
                           (spec[3] - list[,3])^2)
         minIndex <- which.min(distances)
-        if (distances[minIndex] > tol) {
+        if (distances[minIndex] > tolerance) {
             0
         } else {
             minIndex

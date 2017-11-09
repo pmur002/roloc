@@ -6,6 +6,6 @@ Date: 2017-10-06
 Author: Paul Murrell
 Maintainer: Paul Murrell <paul@stat.auckland.ac.nz>
 Description: More about what it does (maybe more than one line)
-License: GPL2, GPL3
-Imports: methods, parallel, colorspace
+License: GPL2|GPL3
+Imports: grDevices, methods, parallel, colorspace
 Suggests: grid, ggplot2, testthat

@@ -22,7 +22,7 @@ col2char <- function(numspec) {
 col2hex <- function(charspec) {
     hex <- grepl("^#", charspec)
     if (any(!hex)) {
-        charspec[!hex] <- rgb(t(col2rgb(charspec[!hex])), max=255)
+        charspec[!hex] <- rgb(t(col2rgb(charspec[!hex])), maxColorValue=255)
     }
     charspec
 }
