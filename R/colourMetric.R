@@ -35,7 +35,7 @@ euclideanLUV <- function(colour, colourList, tolerance=Inf) {
                  },
                  mc.cores=numCores)
     } else {
-        as.list(apply(specCoords, 1, euclideanDistance, listCoords, tolerance))
+        apply(specCoords, 1, euclideanDistance, listCoords, tolerance)
     }
 }
 
@@ -55,7 +55,7 @@ euclideanRGB <- function(colour, colourList, tolerance=Inf) {
                  },
                  mc.cores=numCores)
     } else {
-        as.list(apply(specCoords, 1, euclideanDistance, listCoords, tolerance))
+        apply(specCoords, 1, euclideanDistance, listCoords, tolerance)
     }
 }
                          

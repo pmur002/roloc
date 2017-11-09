@@ -45,6 +45,8 @@ colourNames <- function(colour,
         ## Otherwise, convert "#RRGGBB[AA]" specification to name
         colourRGB <- hex2RGB(col2hex(colourSpec))
         colourIndex <- colourMetric(colourRGB, colourList$colours, ...)
+        if (!is.list(colourIndex))
+            colourIndex <- as.list(colourIndex)
         missing <- sapply(colourIndex, is.na)
         unknown <- !missing & sapply(colourIndex,
                                      function(x) { length(x) == 1 && x < 1 })
