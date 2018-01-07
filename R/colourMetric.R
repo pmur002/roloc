@@ -14,29 +14,20 @@ euclideanDistance <- function(spec, list, tolerance) {
         }
     }
 }
-                    
+
+LUVcoords <- function(sRGB) {
+    luv <- as(sRGB, "LUV")
+    coords <- coords(luv)
+    ## Special case "black" to avoid NAs (set U and V to 0)
+    coords[coords[,"L"] == 0, ] <- 0
+    coords
+}
+
 euclideanLUV <- function(colour, colourList, tolerance=Inf) {
     ## Both 'colour' and 'colourList' are already 'sRGB'
-    ## Convert 'spec' to 'Luv'
-    specColour <- as(colour, "LUV")
-    ## Convert 'colourList' to 'Luv'
-    listColours <- as(colourList, "LUV")
-    ## Calculate distances
-    specCoords <- coords(specColour)
-    listCoords <- coords(listColours)
-    ## This needs speeding up when number of colours is large
-    numCores <- detectCores()
-    numSpecs <- nrow(specCoords)
-    if (numSpecs > 100) {
-        mclapply(1:numSpecs,
-                 function(i) {
-                     euclideanDistance(specCoords[i,],
-                                       listCoords, tolerance)
-                 },
-                 mc.cores=numCores)
-    } else {
-        apply(specCoords, 1, euclideanDistance, listCoords, tolerance)
-    }
+    specCoords <- LUVcoords(colour)
+    listCoords <- LUVcoords(colourList)
+    apply(specCoords, 1, euclideanDistance, listCoords, tolerance)
 }
 
 euclideanRGB <- function(colour, colourList, tolerance=Inf) {
@@ -47,15 +38,6 @@ euclideanRGB <- function(colour, colourList, tolerance=Inf) {
     ## This needs speeding up when number of colours is large
     numCores <- detectCores()
     numSpecs <- nrow(specCoords)
-    if (numSpecs > 100) {
-        mclapply(1:numSpecs,
-                 function(i) {
-                     euclideanDistance(specCoords[i,],
-                                       listCoords, tolerance)
-                 },
-                 mc.cores=numCores)
-    } else {
-        apply(specCoords, 1, euclideanDistance, listCoords, tolerance)
-    }
+    apply(specCoords, 1, euclideanDistance, listCoords, tolerance)
 }
                          

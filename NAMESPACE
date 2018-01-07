@@ -29,7 +29,7 @@ export("colourName",
 
        "euclideanDistance",
        "euclideanLUV",
-       "euclideanRGB"
+       "euclideanRGB",
 
        ## "colourPlot",
        "colourSwatch",
