@@ -108,6 +108,7 @@ colourPlot <- function(colour,
 
 colorPlot <- colourPlot
 
+## Colour swatch 
 colourSwatch <- function(colours,
                          colourList=getOption("roloc.colourList"),
                          colourMetric=getOption("roloc.colourMetric"),
@@ -115,19 +116,30 @@ colourSwatch <- function(colours,
     if (newpage) {
         grid::grid.newpage()
     }
-    layout <- grid::grid.layout(nrow=length(colours), ncol=3,
-                                heights=grid::unit(1, "line"), 
-                                widths=grid::unit(rep(1, 3),
-                                                  c("null", "cm", "null")))
-    grid::pushViewport(grid::viewport(layout=layout))
+    if (is.numeric(colours)) {
+        colours <- col2char(colours)
+    }
     names <- colourName(colours, colourList, colourMetric)
+    layout <-
+        grid::grid.layout(nrow=length(colours), ncol=4,
+                          heights=grid::unit(1, "line"), 
+                          widths=grid::unit.c(max(grid::stringWidth(colours)),
+                                              grid::unit(1, "cm"),
+                                              max(grid::stringWidth(names)),
+                                              grid::unit(1, "cm")))
+    grid::pushViewport(grid::viewport(layout=layout))
     for (i in seq_along(colours)) {
         grid::pushViewport(grid::viewport(layout.pos.row=i, layout.pos.col=2))
-        grid::grid.rect(width=.8, height=1,
-                        gp=grid::gpar(col=NA, fill=colours[i]))
         grid::grid.text(colours[i], x=0, just="right", 
                         gp=grid::gpar(fontfamily="mono"))
-        grid::grid.text(names[i], x=1, just="left")
+        grid::grid.rect(width=.8, height=1,
+                        gp=grid::gpar(col=NA, fill=colours[i]))
+        grid::popViewport()
+        grid::pushViewport(grid::viewport(layout.pos.row=i, layout.pos.col=4))
+        grid::grid.text(names[i], x=0, just="right")
+        grid::grid.rect(width=.8, height=1,
+                        gp=grid::gpar(col=NA,
+                                      fill=hex(colourList$colours[match(names[i], colourList$names)])))
         grid::popViewport()
     }
     grid::popViewport()
