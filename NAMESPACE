@@ -4,7 +4,10 @@ importFrom("methods", "as", "is")
 importFrom("parallel", "mclapply", "detectCores")
 import("colorspace")
 
-export("colourName",
+export("colourMatch",
+       "colorMatch",
+
+       "colourName",
        "colorName",
        "colourNames",
        "colorNames",
@@ -33,7 +36,16 @@ export("colourName",
 
        ## "colourPlot",
        "colourSwatch",
+       "colourSwatches",
        ## Aliases
        ## "colorPlot",
-       "colorSwatch"
+       "colorSwatch",
+       "colorSwatches"
        )
+
+S3method("colourNames", "default")
+S3method("colourNames", "colourMatch")
+S3method("colourSwatch", "default")
+S3method("colourSwatch", "colourMatch")
+S3method("colourSwatches", "default")
+S3method("colourSwatches", "colourMatch")

@@ -27,46 +27,42 @@ col2hex <- function(charspec) {
     charspec
 }
 
-colourNames <- function(colour,
-                        colourList=getOption("roloc.colourList"),
-                        colourMetric=getOption("roloc.colourMetric"),
-                        ...) {
-    if (!inherits(colourList, "colourList"))
-        stop("Invalid colourList")
-    ## Convert to character
-    if (is.numeric(colour)) {
-        colour <- col2char(colour)
-    }
-    ## If the colour specification is already a name in the 'colourList',
-    ## just return that
-    alreadyName <- colour %in% colourList$names
-    if (any(!alreadyName)) {
-        colourSpec <- colour[!alreadyName]
-        ## Otherwise, convert "#RRGGBB[AA]" specification to name
-        colourRGB <- hex2RGB(col2hex(colourSpec))
-        colourIndex <- colourMetric(colourRGB, colourList$colours, ...)
-        if (!is.list(colourIndex))
-            colourIndex <- as.list(colourIndex)
-        missing <- sapply(colourIndex, is.na)
-        unknown <- !missing & sapply(colourIndex,
-                                     function(x) { length(x) == 1 && x < 1 })
-        colour[!alreadyName & missing] <- NA
-        colour[!alreadyName & unknown] <- "unknown"
-        colours <- as.list(colour)
-        colours[!alreadyName & !(missing | unknown)] <-
-            lapply(colourIndex[!(missing | unknown)],
-                   function(i) { colourList$names[i] })
-    } else {
-        colours <- as.list(colour)
-    }
-    colours
+colourNames <- function(x, ...) {
+    UseMethod("colourNames")
 }
+
+colNames <- function(distances, colourList) {
+    if (all(is.na(distances))) {
+        NA
+    } else {
+        finiteDist <- is.finite(distances)
+        if (any(finiteDist)) {
+            colourList$names[finiteDist][order(distances[finiteDist])]
+        } else {
+            "unknown"
+        }
+    }
+}
+
+colourNames.colourMatch <- function(x, ...) {
+    distList <- lapply(seq_len(nrow(x$colourDist)),
+                       function(i) x$colourDist[i,])
+    lapply(distList, colNames, x$colourList)
+}
+
+colourNames.default <- function(x,
+                                colourList=getOption("roloc.colourList"),
+                                colourMetric=getOption("roloc.colourMetric"),
+                                ...) {
+    colourNames(colourMatch(x, colourList, colourMetric, ...))
+}
+
 
 colorNames <- colourNames
 
 colourName <- function(...) {
-    nameList <- colourNames(...)
-    sapply(nameList, "[[", 1)
+    names <- colourNames(...)
+    sapply(names, "[[", 1)
 }
 
 colorName <- colourName

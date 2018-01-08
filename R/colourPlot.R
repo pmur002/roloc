@@ -108,41 +108,103 @@ colourPlot <- function(colour,
 
 colorPlot <- colourPlot
 
-## Colour swatch 
-colourSwatch <- function(colours,
-                         colourList=getOption("roloc.colourList"),
-                         colourMetric=getOption("roloc.colourMetric"),
-                         newpage=TRUE) {
+## Colour swatch
+
+## colourSwatch() shows just the first match
+## colourSwatches() shows all matches
+
+colourSwatch <- function(x, ..., newpage=TRUE) {
+    UseMethod("colourSwatch")
+}
+
+colourSwatch.colourMatch <- function(x, ..., newpage=TRUE) {
     if (newpage) {
         grid::grid.newpage()
     }
-    if (is.numeric(colours)) {
-        colours <- col2char(colours)
-    }
-    names <- colourName(colours, colourList, colourMetric)
+    names <- colourName(x)
     layout <-
-        grid::grid.layout(nrow=length(colours), ncol=4,
+        grid::grid.layout(nrow=length(x$colour), ncol=4,
                           heights=grid::unit(1, "line"), 
-                          widths=grid::unit.c(max(grid::stringWidth(colours)),
+                          widths=grid::unit.c(max(grid::stringWidth(x$colour)),
                                               grid::unit(1, "cm"),
                                               max(grid::stringWidth(names)),
                                               grid::unit(1, "cm")))
     grid::pushViewport(grid::viewport(layout=layout))
-    for (i in seq_along(colours)) {
+    for (i in seq_along(x$colour)) {
         grid::pushViewport(grid::viewport(layout.pos.row=i, layout.pos.col=2))
         grid::grid.text(colours[i], x=0, just="right", 
                         gp=grid::gpar(fontfamily="mono"))
-        grid::grid.rect(width=.8, height=1,
-                        gp=grid::gpar(col=NA, fill=colours[i]))
+        grid::grid.rect(width=.6, height=.9,
+                        gp=grid::gpar(col=NA, fill=x$colour[i]))
         grid::popViewport()
         grid::pushViewport(grid::viewport(layout.pos.row=i, layout.pos.col=4))
         grid::grid.text(names[i], x=0, just="right")
-        grid::grid.rect(width=.8, height=1,
+        grid::grid.rect(width=.6, height=.9,
                         gp=grid::gpar(col=NA,
-                                      fill=hex(colourList$colours[match(names[i], colourList$names)])))
+                                      fill=hex(x$colourList$colours[match(names[i], x$colourList$names)])))
         grid::popViewport()
     }
     grid::popViewport()
 }
 
+colourSwatch.default <- function(x, 
+                                 colourList=getOption("roloc.colourList"),
+                                 colourMetric=getOption("roloc.colourMetric"),
+                                 ..., newpage=TRUE) {
+    colourSwatch(colourMatch(x, colourList, colourMetric, ...), newpage=newpage)
+}
+
 colorSwatch <- colourSwatch
+
+###########################
+colourSwatches <- function(x, ..., newpage=TRUE) {
+    UseMethod("colourSwatches")
+}
+
+colourSwatches.colourMatch <- function(x, ..., newpage=TRUE) {
+    if (newpage) {
+        grid::grid.newpage()
+    }
+    names <- colourNames(x)
+    layout <-
+        grid::grid.layout(nrow=length(x$colour), ncol=1,
+                          heights=grid::unit(sapply(names, length), "line"))
+    grid::pushViewport(grid::viewport(layout=layout))
+    for (i in seq_along(x$colour)) {
+        sublayout <- grid::grid.layout(nrow=length(names[[i]]), ncol=4,
+                          heights=grid::unit(1, "line"), 
+                          widths=grid::unit.c(max(grid::stringWidth(x$colour)),
+                                              grid::unit(1, "cm"),
+                                              max(grid::stringWidth(unlist(names))),
+                                              grid::unit(1, "cm")))
+        grid::pushViewport(grid::viewport(layout.pos.row=i, layout=sublayout))
+        grid::pushViewport(grid::viewport(layout.pos.row=1,
+                                          layout.pos.col=2))
+        grid::grid.text(colours[i], x=0, just="right", 
+                        gp=grid::gpar(fontfamily="mono"))
+        grid::grid.rect(width=.6, height=.9,
+                        gp=grid::gpar(col=NA, fill=x$colour[i]))
+        grid::popViewport()
+        for (j in seq_along(names[[i]])) {
+            grid::pushViewport(grid::viewport(layout.pos.row=j,
+                                              layout.pos.col=4))
+            grid::grid.text(names[[i]][j], x=0, just="right")
+            grid::grid.rect(width=.6, height=.9,
+                            gp=grid::gpar(col=NA,
+                                          fill=hex(x$colourList$colours[match(names[[i]][j], x$colourList$names)])))
+            grid::popViewport()
+        }
+        ## Sublayout
+        grid::popViewport()
+    }
+    grid::popViewport()
+}
+
+colourSwatches.default <- function(x, 
+                                 colourList=getOption("roloc.colourList"),
+                                 colourMetric=getOption("roloc.colourMetric"),
+                                 ..., newpage=TRUE) {
+    colourSwatches(colourMatch(x, colourList, colourMetric, ...), newpage=newpage)
+}
+
+colorSwatches <- colourSwatches
