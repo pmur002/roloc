@@ -1,5 +1,5 @@
 
-euclideanDistance <- function(spec, list, tolerance) {
+euclideanDistance <- function(spec, list, tolerance=Inf) {
     if (any(!is.finite(spec))) {
         NA
     } else {
