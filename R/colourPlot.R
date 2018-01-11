@@ -132,7 +132,7 @@ colourSwatch.colourMatch <- function(x, ..., newpage=TRUE) {
     grid::pushViewport(grid::viewport(layout=layout))
     for (i in seq_along(x$colour)) {
         grid::pushViewport(grid::viewport(layout.pos.row=i, layout.pos.col=2))
-        grid::grid.text(colours[i], x=0, just="right", 
+        grid::grid.text(x$colour[i], x=0, just="right", 
                         gp=grid::gpar(fontfamily="mono"))
         grid::grid.rect(width=.6, height=.9,
                         gp=grid::gpar(col=NA, fill=x$colour[i]))
@@ -180,7 +180,7 @@ colourSwatches.colourMatch <- function(x, ..., newpage=TRUE) {
         grid::pushViewport(grid::viewport(layout.pos.row=i, layout=sublayout))
         grid::pushViewport(grid::viewport(layout.pos.row=1,
                                           layout.pos.col=2))
-        grid::grid.text(colours[i], x=0, just="right", 
+        grid::grid.text(x$colour[i], x=0, just="right", 
                         gp=grid::gpar(fontfamily="mono"))
         grid::grid.rect(width=.6, height=.9,
                         gp=grid::gpar(col=NA, fill=x$colour[i]))
