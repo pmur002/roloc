@@ -87,7 +87,8 @@ Resene <- read.table(system.file("Dictionaries", "Resene-2010-rgb.txt",
                      comment.char="!")
 ReseneColours <- colourList(Resene$V4, sRGB(as.matrix(Resene[1:3])/255))
 ReseneColors <- ReseneColours
-    
+
+## My own construction
 ## Hues based on 1908 colour wheel
 ## https://en.wikipedia.org/wiki/Color_wheel#/media/File:RGV_color_wheel_1908.png
 ## https://en.wikipedia.org/wiki/Color_wheel
@@ -110,5 +111,5 @@ colourNames <- c(gsub(" +", " ",
 colours <- c(apply(expand.grid(chromaNum, luminanceNum, hueNum), 1, 
                                function(x) hcl(x[3], x[1], x[2])),
              hcl(0, 0, greyNum))
-basicColours <- colourList(colourNames, hex2RGB(colours))
-
+simpleColours <- colourList(colourNames, hex2RGB(colours))
+simpleColors <- simpleColours
