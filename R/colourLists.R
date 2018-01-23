@@ -113,3 +113,30 @@ colours <- c(apply(expand.grid(chromaNum, luminanceNum, hueNum), 1,
              hcl(0, 0, greyNum))
 simpleColours <- colourList(colourNames, hex2RGB(colours))
 simpleColors <- simpleColours
+
+## Maori colour names
+## http://www.maori.org.nz/kotereo/default.php?pid=sp148&parent=115
+NgaTae <- colourList(names=c("Ma",
+                             "Pango", "Mangu", 
+                             "Kikorangi", "Kahurangi",
+                             "Kakariki",
+                             "Maota",
+                             "Kowhai",
+                             "Tawa", "Poroporo",
+                             "Parauri", "Pakaka",
+                             "Kiwikiwi",
+                             "Karaka", "Parakaraka",
+                             "Whero", "Kura",
+                             "Mawhero"),
+                     colours=sRGB(rbind(c(255, 255, 255),
+                                        c(0,0,0), c(0,0,0),
+                                        c(0, 0, 255), c(0, 0, 255),
+                                        c(0, 128, 0),
+                                        c(0, 255, 0),
+                                        c(255, 255, 0),
+                                        c(128, 0, 128), c(128, 0, 128),
+                                        c(153, 51, 0), c(153, 51, 0),
+                                        c(192, 192, 192),
+                                        c(255, 165, 0), c(255, 165, 0),
+                                        c(255, 0, 0), c(255, 0, 0),
+                                        c(255, 192, 203))/255))
