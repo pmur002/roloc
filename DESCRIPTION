@@ -1,11 +1,11 @@
 Package: roloc
 Type: Package
 Title: Convert colour specification to colour name
-Version: 0.1
+Version: 0.1-1
 Date: 2017-10-06
 Author: Paul Murrell
 Maintainer: Paul Murrell <paul@stat.auckland.ac.nz>
-Description: More about what it does (maybe more than one line)
-License: GPL2|GPL3
+Description: Functions to convert an R colour specification to a colour name. The user can select and create different lists of colour names and different colour metrics for the conversion.
+License: GPL-2 | GPL-3
 Imports: grDevices, methods, parallel, colorspace
 Suggests: grid, ggplot2, testthat

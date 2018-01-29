@@ -12,8 +12,6 @@
 HTMLcolours
 }
 \format{ A \code{"colourList"} object. }
-\source{
-}
 \references{
   https://www.w3.org/TR/2011/REC-css3-color-20110607/#html4
 }

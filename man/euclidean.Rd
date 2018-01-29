@@ -48,13 +48,7 @@ euclideanDistance(spec, list, tolerance)
   The colour metrics return either a vector or a list of integer
   indices into the colour list.
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
 \author{
   Paul Murrell
-}
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \keyword{ dplot }% use one of  RShowDoc("KEYWORDS")
