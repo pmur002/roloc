@@ -45,8 +45,9 @@ euclideanDistance(spec, list, tolerance)
   euclidean metrics in other colour spaces.
 }
 \value{
-  The colour metrics return either a vector or a list of integer
-  indices into the colour list.
+  The colour metrics return 
+  a matrix of distances, with one row per colour specification and one
+  column per colour name.  
 }
 \author{
   Paul Murrell
