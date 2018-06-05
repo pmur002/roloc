@@ -21,6 +21,7 @@ export("colourMatch",
        "HTMLcolours",
        "ReseneColours",
        "simpleColours",
+       "NBScolours",
        "NgaTae",
        # Aliases
        "Rcolors",
