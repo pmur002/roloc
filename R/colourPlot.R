@@ -22,8 +22,9 @@ colPlot <- function(colour, colourList, colourMetric,
     regions <- lapply(colName, colourRegion, names)
     regionDF <- cbind(do.call(rbind, regions),
                       group=rep(1:length(regions), sapply(regions, nrow)))
-    ggplot2::ggplot(as.data.frame(RGB)) +
-        ggplot2::geom_tile(ggplot2::aes(Var1, Var2), fill=cols) +
+    rgbDF <- as.data.frame(RGB)
+    ggplot2::ggplot(rgbDF) +
+        ggplot2::geom_tile(ggplot2::aes_string("Var1", "Var2"), fill=cols) +
         ggplot2::scale_x_continuous(expand=c(0, 0)) +
         ggplot2::scale_y_continuous(expand=c(0, 0)) +
         ggplot2::ggtitle(title) + xlab(xlab) + ylab(ylab) +
@@ -31,7 +32,8 @@ colPlot <- function(colour, colourList, colourMetric,
         ggplot2::labs(caption=subtitle) +
         ggplot2::geom_point(ggplot2::aes(x=x, y=y),
                             data=data.frame(x=colX, y=colY), pch=1) +
-        ggplot2::geom_polygon(ggplot2::aes(x=V1, y=V2, group=group),
+        ggplot2::geom_polygon(ggplot2::aes_string(x="V1", y="V2",
+                                                  group="group"),
                               data=regionDF, col="black", fill=NA) 
 }
 
